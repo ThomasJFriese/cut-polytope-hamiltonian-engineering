@@ -42,7 +42,7 @@ ALGO_STYLES = {
     OPTIMAL: {"color": "#009E73", "marker": "X", "dash": (1, 1), "size": 5.5},
 }
 
-RUN_TIME_LABEL = r"Quantum Run Time $\lVert\pmb{\lambda}\rVert_1$"
+RUN_TIME_LABEL = r"Quantum Run Time $\lVert\pmb{\lambda}\rVert_{\ell_1}$"
 
 
 def set_style():
