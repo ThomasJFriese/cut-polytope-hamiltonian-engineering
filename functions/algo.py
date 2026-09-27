@@ -112,28 +112,42 @@ def pulse_phases(k, X):
     return np.exp(1j * X) if np.isinf(k) else np.exp(1j * 2 * np.pi / k * X)
 
 
-def explicit_construction(instance_file, results_file):
-    """Quantum run time of the explicit construction (k = 2)."""
+def explicit_construction(instance_file, results_file, n_bases=2000, seed=0):
+    """Quantum run time of the explicit construction of arXiv:2511.11404 (k = 2).
+
+    The free x and y diagonal entries are set to 0, which reduces the construction to H - lambda_min.
+    The run time depends on the basis of degenerate eigenspaces, so n_bases random bases are sampled.
+    """
     n, H, mask = load_hollow_matrix(instance_file)
 
-    B = np.zeros(shape=(3*n, 3*n), dtype=np.complex128)
-    B[2::3, 2::3] = H
+    assert np.allclose(H.imag, 0), "Explicit construction is only implemented for real H."
+    H = H.real
 
-    initial_eigvals = np.linalg.eigvalsh(B)
+    eigvals, eigvecs = np.linalg.eigh(H - np.linalg.eigvalsh(H)[0] * np.identity(n))
 
-    B = B - initial_eigvals[0] * np.identity(3*n)
+    groups = np.split(np.arange(n), np.nonzero(np.diff(eigvals) > np.sqrt(tol))[0] + 1)
+    deg_groups = [g for g in groups if len(g) > 1 and np.mean(eigvals[g]) > tol]
 
-    B_eigvals, B_eigvecs = np.linalg.eigh(B)
+    t_fixed = sum(eigvals[g[0]] * np.max(eigvecs[:, g[0]] ** 2) for g in groups if len(g) == 1)
+    ts = np.full(n_bases if deg_groups else 1, t_fixed)
 
-    t = 0
-    for eig, v in zip(B_eigvals, B_eigvecs.T):
-        t += eig * max(abs(v[2::3]) ** 2)
+    rng = np.random.default_rng(seed)
+
+    for s in range(len(ts)):
+        for g in deg_groups:
+            Q, R = np.linalg.qr(rng.normal(size=(len(g), len(g))))
+            W = eigvecs[:, g] @ (Q * np.sign(np.diag(R))) # Haar random basis
+            ts[s] += np.mean(eigvals[g]) * np.sum(np.max(W ** 2, axis=0))
 
     with h5py.File(RESULTS_DIR / results_file, "w") as f:
         f.attrs["instance"] = instance_file
         f.attrs["algorithm"] = "explicit construction"
         f.attrs["k"] = 2
-        f.attrs["q_time"] = t
+        f.attrs["q_time"] = np.median(ts)
+        f.attrs["q_time_min"] = np.min(ts)
+        f.attrs["q_time_max"] = np.max(ts)
+        f.attrs["n_bases"] = len(ts)
+        f.attrs["degenerate_dims"] = np.array([len(g) for g in deg_groups], dtype=int)
 
 
 def exact_algo(k, instance_file, results_file, fix_last=False):

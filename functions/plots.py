@@ -151,7 +151,7 @@ def complete_bipartite_plot():
     runs_per_ratio = 50
     results = "paper_results/complete_bipartite/complete_bipartite"
 
-    q_time_explicit = load_attrs(f"{results}_explicit.hdf5")["q_time"]
+    explicit = load_attrs(f"{results}_explicit.hdf5")
     q_time_exact = load_attrs(f"{results}_exact.hdf5")["q_time"]
     q_time_ray = load_attrs(f"{results}_4.0_0_cut_poly.hdf5")["q_time_exp"]
 
@@ -166,9 +166,11 @@ def complete_bipartite_plot():
     fig, ax = plt.subplots(figsize=(3.35, 2.8))
 
     ax.grid(True, linestyle='--', linewidth=0.5, alpha=0.5, color='gray')
-    ax.set_ylim((0, 50))
+    ax.set_ylim((0, 62))
 
-    algo_hline(ax, q_time_explicit, 2, 4, EXPLICIT, label=r"Explicit Construction\textsuperscript{*}")
+    # range over the bases of the degenerate eigenspaces
+    ax.fill_between(ratios, explicit["q_time_min"], explicit["q_time_max"], color=ALGO_STYLES[EXPLICIT]["color"], alpha=0.15, linewidth=0)
+    algo_hline(ax, explicit["q_time"], 2, 4, EXPLICIT)
     algo_lineplot(ax, df[df["algo"] == UNINFORMED], "s_m_ratio", UNINFORMED)
     algo_hline(ax, q_time_ray, 2, 4, RAY)
     algo_lineplot(ax, df[df["algo"] == INFORMED], "s_m_ratio", INFORMED)
@@ -202,7 +204,7 @@ def edge_surpression_plot():
             data.append([m / max_edges, cut_poly["q_time"], INFORMED])
             data.append([m / max_edges, cut_poly["q_time_exp"], RAY])
             data.append([m / max_edges, load_attrs(f"{results}_eff_relax.hdf5")["q_time"], UNINFORMED])
-            data.append([m / max_edges, load_attrs(f"{results}_explicit.hdf5")["q_time"], EXPLICIT])
+            data.append([m / max_edges, load_attrs(f"{results}_explicit.hdf5")["q_time_min"], EXPLICIT])
             data.append([m / max_edges, load_attrs(f"{results}_exact.hdf5")["q_time"], OPTIMAL])
 
     df = pd.DataFrame(data=data, columns=["edges_surpressed", "q_time", "algo"])
