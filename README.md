@@ -1,7 +1,7 @@
 # Cut Polytope based Hamiltonian Engineering
 
 Code to reproduce the numerical results and figures of the paper
-[arXiv:XXXX.XXXXX](https://arxiv.org/abs/XXXX.XXXXX). <!-- TODO: insert the arXiv identifier (here and in the Citation section) once the paper is online -->
+[arXiv:2609.36006](https://arxiv.org/abs/2609.36006).
 
 ## Setup
 
@@ -84,7 +84,7 @@ plots/                        figures of the paper
 ## Citation
 
 If you use this code, please cite the paper
-[arXiv:XXXX.XXXXX](https://arxiv.org/abs/XXXX.XXXXX).
+[arXiv:2609.36006](https://arxiv.org/abs/2609.36006).
 
 ## License
 

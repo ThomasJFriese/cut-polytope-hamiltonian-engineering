@@ -10,30 +10,28 @@ authors:
 version: 0.1.0
 license: MIT
 repository-code: "https://github.com/ThomasJFriese/cut-polytope-hamiltonian-engineering"
-# TODO: once the paper is on arXiv, uncomment and fill in the block below so that
-# GitHub's "Cite this repository" button points to the paper.
-# preferred-citation:
-#   type: article
-#   title: "<paper title>"
-#   authors:
-#     - family-names: Friese
-#       given-names: Thomas Joachim
-#       affiliation: Hamburg University of Technology (TUHH)
-#       orcid: "https://orcid.org/0009-0009-0495-2635"
-#     - family-names: Kum
-#       given-names: Özgün
-#       affiliation: Hamburg University of Technology (TUHH)
-#       orcid: "https://orcid.org/0000-0003-1466-4900"
-#     - family-names: Harrow
-#       given-names: Aram W.
-#       affiliation: Massachusetts Institute of Technology (MIT)
-#       orcid: "https://orcid.org/0000-0003-3220-7682"
-#     - family-names: Kliesch
-#       given-names: Martin
-#       affiliation: Hamburg University of Technology (TUHH)
-#       orcid: "https://orcid.org/0000-0002-8009-0549"
-#   year: 2026
-#   identifiers:
-#     - type: other
-#       value: "arXiv:XXXX.XXXXX"
-#   url: "https://arxiv.org/abs/XXXX.XXXXX"
+preferred-citation:
+  type: article
+  title: "Fast Hamiltonian engineering from cut polytope geometry"
+  authors:
+    - family-names: Friese
+      given-names: Thomas Joachim
+      affiliation: Hamburg University of Technology (TUHH)
+      orcid: "https://orcid.org/0009-0009-0495-2635"
+    - family-names: Kum
+      given-names: Özgün
+      affiliation: Hamburg University of Technology (TUHH)
+      orcid: "https://orcid.org/0000-0003-1466-4900"
+    - family-names: Harrow
+      given-names: Aram W.
+      affiliation: Massachusetts Institute of Technology (MIT)
+      orcid: "https://orcid.org/0000-0003-3220-7682"
+    - family-names: Kliesch
+      given-names: Martin
+      affiliation: Hamburg University of Technology (TUHH)
+      orcid: "https://orcid.org/0000-0002-8009-0549"
+  year: 2026
+  identifiers:
+    - type: other
+      value: "arXiv:2609.36006"
+  url: "https://arxiv.org/abs/2609.36006"
